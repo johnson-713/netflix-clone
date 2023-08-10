@@ -75,14 +75,18 @@ function PlansScreen() {
 
   return (
     <div className='plansScreen'>
+      <br />
+      {subscription && <p>Renewal Date: {new Date(subscription?.current_period_end * 1000).toLocaleDateString()}</p>}
       {Object.entries(products).map(([productId, productData]) => {
+          const isCurrentPackage = productData.name?.toString().toLowerCase().includes(subscription?.role);
         return(
-          <div className="plansScreen-plan">
+          <div key={productId} className={`${isCurrentPackage && "plansScreen-plan--disabled"} plansScreen-plan`}>
             <div className="planScreen-info">
               <h5>{productData.name}</h5>
               <h6>{productData.description}</h6>
             </div>
-            <button onClick={() => loadCheckout(productData.prices.priceId)}>Subscribe</button>
+            <button onClick={() => {!isCurrentPackage && loadCheckout(productData.prices.priceId)}}>
+              {isCurrentPackage ? 'Current Package' : 'Subscribe' }</button>
           </div>
         );
       })}

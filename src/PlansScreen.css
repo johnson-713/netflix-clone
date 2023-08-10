@@ -18,3 +18,7 @@
     border: none;
     cursor: pointer;
 }
+
+.plansScreen-plan-disabled > button {
+    background-color: gray !important;
+}
